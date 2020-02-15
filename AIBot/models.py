@@ -1,6 +1,19 @@
 from django.db import models
-import enum
 # Create your models here.
+
+
+class AnswerType(models.IntegerChoices):
+    YOUNGER = -1
+    EQUAL = 0
+    OLDER = 1
+
+    @property
+    def one_hot(self):
+        """Returns a one-hot encoding of the answer."""
+        encoding = [0, 0, 0]
+        encoding[self.value + 1] = 1
+
+        return encoding
 
 
 class User(models.Model):
@@ -15,6 +28,8 @@ class ImagePair(models.Model):
     image0 = models.ImageField()
     image1 = models.ImageField()
 
+    ai_answer = models.IntegerField(choices=AnswerType.choices)
+
 
 class Answer(models.Model):
 
@@ -22,19 +37,6 @@ class Answer(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['user', 'image_pair'], name='unique_answer')
         ]
-
-    class AnswerType(models.IntegerChoices):
-        YOUNGER = -1
-        EQUAL = 0
-        OLDER = 1
-
-        @property
-        def one_hot(self):
-            """Returns a one-hot encoding of the answer."""
-            encoding = [0, 0, 0]
-            encoding[self.value + 1] = 1
-
-            return encoding
 
     value = models.IntegerField(choices=AnswerType.choices)
 
