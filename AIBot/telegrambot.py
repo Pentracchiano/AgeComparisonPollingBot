@@ -31,22 +31,20 @@ POLICY = "Utilizza /challenge per iniziare la gara.\n\n" \
          "puoi cliccare su 'Arresta Bot' e questo viene invalidato. Puoi inoltre controllare il mio codice su " \
          "[questa pagina](https://github.com/Pentracchiano/AgeComparisonPollingBot): sono open-source!\n\n"
 
-first_image_pair = ImagePair.objects.get(pk=0)
-
 
 def send_image_group_with_buttons(bot, chat_id, image0, image1, text):
     buttons = telegram.InlineKeyboardMarkup(inline_keyboard=[
-        [telegram.InlineKeyboardButton(text='Prima foto', callback_data='-1')],
-        [telegram.InlineKeyboardButton(text='Stessa età', callback_data='0')],
-        [telegram.InlineKeyboardButton(text='Seconda foto', callback_data='1')],
+        [telegram.InlineKeyboardButton(text=AnswerType.readable(-1), callback_data='-1')],
+        [telegram.InlineKeyboardButton(text=AnswerType.readable(0), callback_data='0')],
+        [telegram.InlineKeyboardButton(text=AnswerType.readable(1), callback_data='1')],
     ])
 
     # this is based on the fact that a media group has the caption of the first inputmedia photo.
     # In this way, I can delete one message and continue: otherwise, a user could click on buttons of the old photos
     # by mistake, and this input would be considered for the current photo pair.
 
-    image0_media = telegram.InputMediaPhoto(image0, caption=text, parse_mode=telegram.ParseMode.MARKDOWN)
-    image1_media = telegram.InputMediaPhoto(image1)
+    image0_media = telegram.InputMediaPhoto(image0.file, caption=text, parse_mode=telegram.ParseMode.MARKDOWN)
+    image1_media = telegram.InputMediaPhoto(image1.file)
 
     bot.send_media_group(chat_id=chat_id, media=[image0_media, image1_media])
     bot.send_message(chat_id=chat_id, text="Fai la tua scelta:", reply_markup=buttons)  # non riesco a trovare un modo per posizionare un reply markup ad un media group...
@@ -64,22 +62,25 @@ def help(update, context):
 def challenge(update, context):
     user = User.objects.get(pk=update.effective_chat.id)
     try:
+        first_image_pair = ImagePair.objects.get(pk=0)
         current_challenge = Challenge.objects.create(pair_to_analyze=first_image_pair, user=user)
         message = "Cominciamo!\nDevi dirmi in quale foto si trova la persona *più giovane*."
-    except IntegrityError:
-        # i could just present the current photo in this way, but i'm worried
-        # because in this way i would present another set of buttons to the user... which will not be deleted
-        # current_challenge = Challenge.objects.get(user=user)
-        # message = ""
-        context.bot.send_message(chat_id=user.chat_id, text="Hai già una challenge in corso!")
-        return
 
-    send_image_group_with_buttons(context.bot,
-                                  user.chat_id,
-                                  current_challenge.pair_to_analyze.image0.file,
-                                  current_challenge.pair_to_analyze.image1.file,
-                                  message
-                                  )
+        send_image_group_with_buttons(context.bot,
+                                      user.chat_id,
+                                      current_challenge.pair_to_analyze.image0,
+                                      current_challenge.pair_to_analyze.image1,
+                                      message
+                                      )
+    except IntegrityError:
+        current_challenge = Challenge.objects.get(user=user)
+        if current_challenge.completed:
+            context.bot.send_message(chat_id=user.chat_id, text="Hai già completato la challenge! Grazie del tuo aiuto!")
+        else:
+            context.bot.send_message(chat_id=user.chat_id, text="Hai già una challenge in corso!")
+
+
+
 
 
 def challenge_answer(update, context):
@@ -110,8 +111,8 @@ def challenge_answer(update, context):
     if not user.challenge.completed:
         send_image_group_with_buttons(context.bot,
                                       user.chat_id,
-                                      user.challenge.pair_to_analyze.image0.file,
-                                      user.challenge.pair_to_analyze.image1.file,
+                                      user.challenge.pair_to_analyze.image0,
+                                      user.challenge.pair_to_analyze.image1,
                                       "Prossimo paio! In quale foto si trova la persona *più giovane*?")
     else:
         total_correct_answers = user.challenge.answer_set.filter(image_pair__correct_answer=F('value')).count()
