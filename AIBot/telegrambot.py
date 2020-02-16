@@ -119,11 +119,10 @@ def challenge_answer(update, context):
 
         context.bot.send_message(chat_id=user.chat_id, text="Grazie di aver partecipato alla sfida!\n"
                                                             "Hai totalizzato un punteggio di *{:.2f}%*!\n\n"
-                                                            "Per preservare la tua anonimità, eliminerò i tuoi dati.\n\n"
                                                             "[Addio, e grazie per tutto il pesce!](https://it.wikipedia.org/wiki/Addio,_e_grazie_per_tutto_il_pesce)".format(
             total_correct_answers / total_answers * 100),
                                  parse_mode=telegram.ParseMode.MARKDOWN)
-        user.delete()
+
 
 
 def error(update, context):
