@@ -26,9 +26,9 @@ WELCOME_MESSAGE = "Benvenuto!\n" \
 POLICY = "Utilizza /challenge per iniziare la gara.\n\n" \
          "Informazioni sui dati: i tuoi dati non verranno salvati: associo l'ID di questa chat alle tue risposte, " \
          "ma solo per assicurarmi " \
-         "che non ci siano risposte duplicate dallo stesso utente. Se vuoi eliminare questo dato, in qualunque " \
+         "che non ci siano risposte duplicate dallo stesso utente. Se proprio vuoi eliminare questo dato, in qualunque " \
          "momento " \
-         "puoi cliccare su 'Arresta Bot' e il dato viene invalidato. Puoi inoltre controllare il mio codice su " \
+         "puoi cliccare su 'Arresta Bot' e questo viene invalidato. Puoi inoltre controllare il mio codice su " \
          "[questa pagina](https://github.com/Pentracchiano/AgeComparisonPollingBot): sono open-source!\n\n"
 
 first_image_pair = ImagePair.objects.get(pk=0)
