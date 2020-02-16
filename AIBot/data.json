@@ -1,0 +1,242 @@
+[
+{
+    "model": "AIBot.imagepair",
+    "pk": 0,
+    "fields": {
+      "image0": "AIBot/images/1_0.jpg",
+      "image1": "AIBot/images/2_0.jpg",
+      "ai_answer": -1,
+      "correct_answer": -1
+    }
+  },
+{
+    "model": "AIBot.imagepair",
+    "pk": 1,
+    "fields": {
+      "image0": "AIBot/images/1_1.jpg",
+      "image1": "AIBot/images/2_1.jpg",
+      "ai_answer": 1,
+      "correct_answer": 1
+    }
+  },
+
+{
+    "model": "AIBot.imagepair",
+    "pk": 2,
+    "fields": {
+      "image0": "AIBot/images/1_2.jpg",
+      "image1": "AIBot/images/2_2.jpg",
+      "ai_answer": 1,
+      "correct_answer": 1
+    }
+  },
+
+{
+    "model": "AIBot.imagepair",
+    "pk": 3,
+    "fields": {
+      "image0": "AIBot/images/1_3.jpg",
+      "image1": "AIBot/images/2_3.jpg",
+      "ai_answer": 1,
+      "correct_answer": 1
+    }
+  },
+
+{
+    "model": "AIBot.imagepair",
+    "pk": 4,
+    "fields": {
+      "image0": "AIBot/images/1_4.jpg",
+      "image1": "AIBot/images/2_4.jpg",
+      "ai_answer": 1,
+      "correct_answer": 1
+    }
+  },
+
+{
+    "model": "AIBot.imagepair",
+    "pk": 5,
+    "fields": {
+      "image0": "AIBot/images/1_5.jpg",
+      "image1": "AIBot/images/2_5.jpg",
+      "ai_answer": 1,
+      "correct_answer": 1
+    }
+  },
+
+{
+    "model": "AIBot.imagepair",
+    "pk": 6,
+    "fields": {
+      "image0": "AIBot/images/1_6.jpg",
+      "image1": "AIBot/images/2_6.jpg",
+      "ai_answer": 0,
+      "correct_answer": 0
+    }
+  },
+
+{
+    "model": "AIBot.imagepair",
+    "pk": 7,
+    "fields": {
+      "image0": "AIBot/images/1_7.jpg",
+      "image1": "AIBot/images/2_7.jpg",
+      "ai_answer": -1,
+      "correct_answer": -1
+    }
+  },
+
+{
+    "model": "AIBot.imagepair",
+    "pk": 8,
+    "fields": {
+      "image0": "AIBot/images/1_8.jpg",
+      "image1": "AIBot/images/2_8.jpg",
+      "ai_answer": 1,
+      "correct_answer": 1
+    }
+  },
+
+{
+    "model": "AIBot.imagepair",
+    "pk": 9,
+    "fields": {
+      "image0": "AIBot/images/1_9.jpg",
+      "image1": "AIBot/images/2_9.jpg",
+      "ai_answer": 1,
+      "correct_answer": 1
+    }
+  },
+
+{
+    "model": "AIBot.imagepair",
+    "pk": 10,
+    "fields": {
+      "image0": "AIBot/images/1_10.jpg",
+      "image1": "AIBot/images/2_10.jpg",
+      "ai_answer": -1,
+      "correct_answer": -1
+    }
+  },
+
+{
+    "model": "AIBot.imagepair",
+    "pk": 11,
+    "fields": {
+      "image0": "AIBot/images/1_11.jpg",
+      "image1": "AIBot/images/2_11.jpg",
+      "ai_answer": 0,
+      "correct_answer": 0
+    }
+  },
+
+{
+    "model": "AIBot.imagepair",
+    "pk": 12,
+    "fields": {
+      "image0": "AIBot/images/1_12.jpg",
+      "image1": "AIBot/images/2_12.jpg",
+      "ai_answer": 1,
+      "correct_answer": 0
+    }
+  },
+
+{
+    "model": "AIBot.imagepair",
+    "pk": 13,
+    "fields": {
+      "image0": "AIBot/images/1_13.jpg",
+      "image1": "AIBot/images/2_13.jpg",
+      "ai_answer": 1,
+      "correct_answer": 1
+    }
+  },
+
+{
+    "model": "AIBot.imagepair",
+    "pk": 14,
+    "fields": {
+      "image0": "AIBot/images/1_14.jpg",
+      "image1": "AIBot/images/2_14.jpg",
+      "ai_answer": 0,
+      "correct_answer": 0
+    }
+  },
+
+{
+    "model": "AIBot.imagepair",
+    "pk": 15,
+    "fields": {
+      "image0": "AIBot/images/1_15.jpg",
+      "image1": "AIBot/images/2_15.jpg",
+      "ai_answer": -1,
+      "correct_answer": -1
+    }
+  },
+
+{
+    "model": "AIBot.imagepair",
+    "pk": 16,
+    "fields": {
+      "image0": "AIBot/images/1_16.jpg",
+      "image1": "AIBot/images/2_16.jpg",
+      "ai_answer": -1,
+      "correct_answer": 0
+    }
+  },
+
+{
+    "model": "AIBot.imagepair",
+    "pk": 17,
+    "fields": {
+      "image0": "AIBot/images/1_17.jpg",
+      "image1": "AIBot/images/2_17.jpg",
+      "ai_answer": 1,
+      "correct_answer": 1
+    }
+  },
+
+{
+    "model": "AIBot.imagepair",
+    "pk": 18,
+    "fields": {
+      "image0": "AIBot/images/1_18.jpg",
+      "image1": "AIBot/images/2_18.jpg",
+      "ai_answer": 0,
+      "correct_answer": 0
+    }
+  },
+
+{
+    "model": "AIBot.imagepair",
+    "pk": 19,
+    "fields": {
+      "image0": "AIBot/images/1_19.jpg",
+      "image1": "AIBot/images/2_19.jpg",
+      "ai_answer": -1,
+      "correct_answer": -1
+    }
+  },
+
+{
+    "model": "AIBot.imagepair",
+    "pk": 20,
+    "fields": {
+      "image0": "AIBot/images/1_20.jpg",
+      "image1": "AIBot/images/2_20.jpg",
+      "ai_answer": 0,
+      "correct_answer": 1
+    }
+  },
+
+{
+    "model": "AIBot.imagepair",
+    "pk": 21,
+    "fields": {
+      "image0": "AIBot/images/1_21.jpg",
+      "image1": "AIBot/images/2_21.jpg",
+      "ai_answer": -1,
+      "correct_answer": -1
+    }
+  }
+]
