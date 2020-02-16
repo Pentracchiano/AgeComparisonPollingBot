@@ -87,6 +87,7 @@ def challenge_answer(update, context):
     query = update.callback_query
     user = User.objects.get(pk=query.message.chat.id)
     correct_answer = user.challenge.pair_to_analyze.correct_answer
+    ai_answer = user.challenge.pair_to_analyze.ai_answer
     current_pair = user.challenge.pair_to_analyze
     user_answer = int(query.data)
     Answer.objects.create(value=user_answer, challenge=user.challenge, image_pair=current_pair)
@@ -99,14 +100,11 @@ def challenge_answer(update, context):
 
     user.challenge.save()
 
-    if correct_answer == user_answer:
-        message = "Complimenti! Risposta corretta!"
-    else:
-        message = "Oh no... la risposta corretta era \"{}\"".format(AnswerType.readable(correct_answer))
+    short_message, long_message = mocking_messages(ai_answer, correct_answer, user_answer)
 
-    context.bot.answer_callback_query(callback_query_id=query.id, text=message)  # necessary even if no text is sent
+    context.bot.answer_callback_query(callback_query_id=query.id, text=short_message)  # necessary even if no text is sent
     context.bot.delete_message(chat_id=user.chat_id, message_id=query.message.message_id)  # removing old buttons
-    context.bot.send_message(chat_id=user.chat_id, text=message)
+    context.bot.send_message(chat_id=user.chat_id, text=long_message)
 
     if not user.challenge.completed:
         send_image_group_with_buttons(context.bot,
@@ -124,6 +122,29 @@ def challenge_answer(update, context):
             total_correct_answers / total_answers * 100),
                                  parse_mode=telegram.ParseMode.MARKDOWN)
 
+
+def mocking_messages(ai_answer, correct_answer, user_answer):
+    if correct_answer == user_answer:
+        short_message = "Complimenti, umano! Risposta corretta! 🥳"
+
+        if ai_answer == correct_answer:
+            long_message = short_message + "\nAnche io ho dato la stessa risposta! 😏"
+        else:
+            long_message = short_message + "\nQuesta volta mi hai battuto... io pensavo fosse \"{}\". 😔".format(
+                AnswerType.readable(ai_answer))
+    else:
+        short_message = "Oh no... la risposta corretta era \"{}\". 🥴".format(AnswerType.readable(correct_answer))
+
+        if ai_answer == correct_answer:
+            long_message = short_message + "\nIo invece ho indovinato! 😌"
+        else:
+            if ai_answer == user_answer:
+                long_message = short_message + "\nMa tranquillizzati... abbiamo almeno dato la stessa risposta.\n" \
+                                               "Saranno questi due ad aver mentito sulle loro età! 😒"
+            else:
+                long_message = short_message + "\nPensa che invece io credevo fosse \"{}\".\n" \
+                                               "Era un esempio tosto, si direbbe. 🧐".format(AnswerType.readable(ai_answer))
+    return short_message, long_message
 
 
 def error(update, context):
