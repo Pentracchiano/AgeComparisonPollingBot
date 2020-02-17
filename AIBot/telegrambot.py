@@ -130,9 +130,8 @@ def challenge_answer(update, context):
                               "Io ho raggiunto il *{:.2f}%*. I miei complimenti. 🤯".format(AI_SCORE)
 
         context.bot.send_message(chat_id=user.chat_id, text="Grazie di aver partecipato alla sfida!\n"
-                                                            "Hai totalizzato un punteggio di *{:.2f}%*!\n" + mocking_goodbye +
-                                                            "\n\n[Addio, e grazie per tutto il pesce!](https://it.wikipedia.org/wiki/Addio,_e_grazie_per_tutto_il_pesce)".format(
-            human_score),
+                                                            "Hai totalizzato un punteggio di *{:.2f}%*!\n\n".format(human_score) + mocking_goodbye +
+                                                            "\n\n[Addio, e grazie per tutto il pesce!](https://it.wikipedia.org/wiki/Addio,_e_grazie_per_tutto_il_pesce)",
                                  parse_mode=telegram.ParseMode.MARKDOWN)
 
 
