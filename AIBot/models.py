@@ -1,6 +1,5 @@
 from django.db import models
 from django.db.models import Q
-# Create your models here.
 
 
 class AnswerType(models.IntegerChoices):
@@ -56,7 +55,6 @@ class Challenge(models.Model):
         ]
 
 class Answer(models.Model):
-
     value = models.IntegerField(choices=AnswerType.choices)
 
     challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE)

@@ -5,6 +5,7 @@ import logging.handlers
 from AIBot.models import *
 from django.db.models import F
 from django.db import IntegrityError
+import time
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(funcName)s - %(levelname)s - %(message)s',
@@ -30,6 +31,9 @@ POLICY = "Utilizza /challenge per iniziare la gara.\n\n" \
          "momento " \
          "puoi cliccare su 'Arresta Bot' e questo viene invalidato. Puoi inoltre controllare il mio codice su " \
          "[questa pagina](https://github.com/Pentracchiano/AgeComparisonPollingBot): sono open-source!\n\n"
+
+
+AI_SCORE = ImagePair.objects.filter(ai_answer=F('correct_answer')).count() / ImagePair.objects.count() * 100
 
 
 def send_image_group_with_buttons(bot, chat_id, image0, image1, text):
@@ -62,7 +66,7 @@ def help(update, context):
 def challenge(update, context):
     user = User.objects.get(pk=update.effective_chat.id)
     try:
-        first_image_pair = ImagePair.objects.get(pk=0)
+        first_image_pair = ImagePair.objects.all()[0]  # gets lazily the first image
         current_challenge = Challenge.objects.create(pair_to_analyze=first_image_pair, user=user)
         message = "Cominciamo!\nDevi dirmi in quale foto si trova la persona *più giovane*."
 
@@ -75,9 +79,9 @@ def challenge(update, context):
     except IntegrityError:
         current_challenge = Challenge.objects.get(user=user)
         if current_challenge.completed:
-            context.bot.send_message(chat_id=user.chat_id, text="Hai già completato la challenge! Grazie del tuo aiuto!")
+            context.bot.send_message(chat_id=user.chat_id, text="Hai già completato la challenge! Grazie del tuo aiuto! 🤖")
         else:
-            context.bot.send_message(chat_id=user.chat_id, text="Hai già una challenge in corso!")
+            context.bot.send_message(chat_id=user.chat_id, text="Hai già una challenge in corso! 👻")
 
 
 
@@ -106,6 +110,8 @@ def challenge_answer(update, context):
     context.bot.delete_message(chat_id=user.chat_id, message_id=query.message.message_id)  # removing old buttons
     context.bot.send_message(chat_id=user.chat_id, text=long_message)
 
+    time.sleep(1.2)
+
     if not user.challenge.completed:
         send_image_group_with_buttons(context.bot,
                                       user.chat_id,
@@ -115,11 +121,18 @@ def challenge_answer(update, context):
     else:
         total_correct_answers = user.challenge.answer_set.filter(image_pair__correct_answer=F('value')).count()
         total_answers = user.challenge.answer_set.count()
+        human_score = total_correct_answers / total_answers * 100
+
+        if human_score < AI_SCORE:
+            mocking_goodbye = "Io, a differenza del tuo _limitato cervello biologico_, ho raggiunto il *{:.2f}%*. 😎".format(AI_SCORE)
+        else:
+            mocking_goodbye = "Incredibile! Non credevo che voi umani foste davvero così capaci, devi essere un _esemplare unico_. 🧐\n" \
+                              "Io ho raggiunto il *{:.2f}%*. I miei complimenti. 🤯".format(AI_SCORE)
 
         context.bot.send_message(chat_id=user.chat_id, text="Grazie di aver partecipato alla sfida!\n"
-                                                            "Hai totalizzato un punteggio di *{:.2f}%*!\n\n"
-                                                            "[Addio, e grazie per tutto il pesce!](https://it.wikipedia.org/wiki/Addio,_e_grazie_per_tutto_il_pesce)".format(
-            total_correct_answers / total_answers * 100),
+                                                            "Hai totalizzato un punteggio di *{:.2f}%*!\n" + mocking_goodbye +
+                                                            "\n\n[Addio, e grazie per tutto il pesce!](https://it.wikipedia.org/wiki/Addio,_e_grazie_per_tutto_il_pesce)".format(
+            human_score),
                                  parse_mode=telegram.ParseMode.MARKDOWN)
 
 
