@@ -22,18 +22,19 @@ WELCOME_MESSAGE = "Benvenuto!\n" \
                   "Il problema è questo: date due immagini di persone, proviamo entrambi a dire chi è il più giovane, " \
                   "" \
                   "o se hanno più o meno la stessa età.\n" \
-                  "Quando sei pronto, inizia la gara premendo su /challenge!"
+                  "Quando sei pronto, inizia la gara premendo su /challenge!\n\nAltrimenti, " \
+                  "puoi avere qualche informazione in più su di me premendo su /help."
 
 POLICY = "Utilizza /challenge per iniziare la gara.\n\n" \
          "Informazioni sui dati: i tuoi dati non verranno salvati: associo l'ID di questa chat alle tue risposte, " \
          "ma solo per assicurarmi " \
          "che non ci siano risposte duplicate dallo stesso utente. Se proprio vuoi eliminare questo dato, in qualunque " \
          "momento " \
-         "puoi cliccare su 'Arresta Bot' e questo viene invalidato. Puoi inoltre controllare il mio codice su " \
+         "puoi cliccare su 'Arresta Bot' e questo viene invalidato.\n\nPuoi inoltre controllare il mio codice su " \
          "[questa pagina](https://github.com/Pentracchiano/AgeComparisonPollingBot): sono open-source!\n\n"
 
 
-AI_SCORE = ImagePair.objects.filter(ai_answer=F('correct_answer')).count() / ImagePair.objects.count() * 100
+AI_SCORE = ImagePair.objects.filter(ai_answer=F('correct_answer')).count() / ImagePair.objects.count() * 100  # fallisce se il DB non esiste ancora
 
 
 def send_image_group_with_buttons(bot, chat_id, image0, image1, text):
@@ -179,3 +180,4 @@ def main():
 
     # log all errors
     dp.add_error_handler(error)
+

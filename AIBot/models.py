@@ -24,6 +24,7 @@ class AnswerType(models.IntegerChoices):
         else:
             return "Seconda foto"
 
+
 class User(models.Model):
     # No personal info is saved in the DB but the current chat, in order to be able to reply to the current user.
     # The user can /stop the bot at any time and this becomes meaningless.
